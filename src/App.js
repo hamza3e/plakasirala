@@ -1,23 +1,58 @@
-import logo from './logo.svg';
-import './App.css';
+// App.js
+import React, { useState } from "react";
+import * as XLSX from "xlsx";
+import OrderButton from "./OrderButton";
+import "./App.css"; // Import your CSS file for styling
 
 function App() {
+  const [data, setData] = useState([]);
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const workbook = XLSX.read(e.target.result, { type: "binary" });
+        const sheetName = workbook.SheetNames[0];
+        const sheet = workbook.Sheets[sheetName];
+
+        const sheetData = XLSX.utils.sheet_to_json(sheet, { header: "A" });
+        setData(sheetData);
+      };
+      reader.readAsBinaryString(file);
+    }
+  };
+
+  const handleOrderButtonClick = (list) => {
+    const shuffledList = [...list].sort(() => Math.random() - 0.5);
+    setData(shuffledList);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    <div className="app-container">
+      <header>
+        <h1>Plaka Sıralayıcı</h1>
       </header>
+      <section className="file-input">
+        <label htmlFor="file">Plaka Listesini Yükleyin: </label>
+        <input type="file" id="file" onChange={handleFileChange} />
+      </section>
+      {data.length > 0 && (
+        <section className="result-container">
+          <OrderButton
+            data={data}
+            onOrderButtonClick={handleOrderButtonClick}
+          />
+          <ul>
+            {data.map((item, index) => (
+              <li key={index}>
+                <strong>{index + 1}</strong> -> <strong>{item.A}</strong>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
     </div>
   );
 }
