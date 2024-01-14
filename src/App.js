@@ -25,7 +25,14 @@ function App() {
   };
 
   const handleOrderButtonClick = (list) => {
-    const shuffledList = [...list].sort(() => Math.random() - 0.5);
+    const shuffledList = [...list];
+
+    // Fisher-Yates shuffle algorithm
+    for (let i = shuffledList.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffledList[i], shuffledList[j]] = [shuffledList[j], shuffledList[i]];
+    }
+
     setData(shuffledList);
   };
 
