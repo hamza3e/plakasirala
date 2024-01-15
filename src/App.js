@@ -57,7 +57,7 @@ function App() {
 
     // Split the shuffled list into four groups
     const groupedLists = [];
-    routeData.map((i, j) => {
+    routeData.forEach((i, j) => {
       let listData = { plate: shuffledList[j][1], route: i[0], group: i[1] };
       groupedLists.push(listData);
     });
