@@ -71,3 +71,68 @@ li {
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
+@media print { 
+    .no-printme { display: none;}
+    .printme  { display: block;}
+
+    .result-container {
+      background-color: none;
+      padding: 0px;
+      border-radius: 0px;
+      box-shadow: 0 0 0;
+    }
+    .app-container {
+      max-width: 100%;
+      margin: 0;
+      padding: 0px;
+      background-color: #fff;
+      border-radius: 0px;
+      box-shadow: 0 0 0;
+      margin-right: 1cm;
+    }
+
+    body {
+      margin: 1cm; /* Adjust the overall margin for print */
+    }
+  
+    table {
+      page-break-inside: auto;
+    }
+  
+    thead {
+      display: table-header-group;
+      
+    }
+  
+    tr {
+      page-break-inside: avoid;
+      page-break-before: avoid;
+    }
+  
+    th, td {
+      page-break-inside: avoid;
+      page-break-after: auto;
+    }
+}
+
+.mt {margin-top: 20px; text-align: center;}
+
+body {
+  margin: 0; /* Reset default body margin for print */
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 10px;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+thead {
+  background-color: #f2f2f2;
+}
