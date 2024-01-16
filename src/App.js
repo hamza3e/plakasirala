@@ -19,9 +19,12 @@ function App() {
         const sheet = workbook.Sheets[sheetName];
 
         const sheetData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+        const nonEmptyRows = sheetData.filter((row) =>
+          row.some((cell) => cell !== undefined && cell !== null)
+        );
 
-        console.log("sheet:", sheetData);
-        setRouteData(sheetData);
+        console.log("sheet:", nonEmptyRows);
+        setRouteData(nonEmptyRows);
       };
       reader.readAsBinaryString(file);
     }
@@ -38,9 +41,11 @@ function App() {
         const sheet = workbook.Sheets[sheetName];
 
         const sheetData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
-
-        console.log("sheet:", sheetData);
-        setPlateData(sheetData);
+        const nonEmptyRows = sheetData.filter((row) =>
+          row.some((cell) => cell !== undefined && cell !== null)
+        );
+        console.log("sheet:", nonEmptyRows);
+        setPlateData(nonEmptyRows);
       };
       reader.readAsBinaryString(file);
     }
