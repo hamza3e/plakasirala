@@ -5,7 +5,7 @@ import "./App.css"; // Import your CSS file for styling
 
 function App() {
   const [routeData, setRouteData] = useState([]);
-  const [groupData, setGroupData] = useState([]);
+  const [groupData, setGroupData] = useState({});
 
   const routeFileLoad = (e) => {
     const file = e.target.files[0];
@@ -48,12 +48,10 @@ function App() {
         [group[i][0], group[j][0]] = [group[j][0], group[i][0]];
       }
     });
-
-    // Flatten the grouped and shuffled data back into a single list
-    const shuffledList = Object.values(groupedData).flat();
+    console.log(Object.keys(groupedData).length);
 
     // Update the state with the shuffled list
-    setGroupData(shuffledList);
+    setGroupData(groupedData);
   };
 
   const printdiv = () => {
@@ -74,39 +72,47 @@ function App() {
           <button onClick={mixandmatch}>Dağıt</button>
         </section>
       )}
-      {groupData.length > 0 && (
+      {Object.keys(groupData).length > 0 && (
         <section className="result-container printme">
-          <table>
-            <thead>
-              <tr>
-                <th align="left">Plaka</th>
-                <th>Güzergah</th>
-                <th align="right">Şehir</th>
-                <th align="right">Zaman</th>
-              </tr>
-            </thead>
-            <tbody>
-              {groupData.map((item, index) => (
-                <tr
-                  key={index}
-                  style={{
-                    pageBreakBefore:
-                      index > 0 && item[3] !== groupData[index - 1][3]
-                        ? "always"
-                        : "auto",
-                  }}
-                >
-                  <td align="left">{item[0]}</td>
-                  <td>{item[1]}</td>
-                  <td align="right">{item[2]}</td>
-                  <td align="right">{item[3]}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          {Object.keys(groupData).map((i, j) => (
+            <div style={{ flex: 1, padding: 5 }}>
+              <table>
+                <thead>
+                  <tr>
+                    <th style={{ textAlign: "center" }}>{i}</th>
+                  </tr>
+                  <tr
+                    style={{
+                      display: "flex",
+                    }}
+                  >
+                    <th align="left" style={styles.col1}>
+                      Plaka
+                    </th>
+                    <th style={styles.col2}>Güzergah</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {groupData[i].map((item, index) => (
+                    <tr
+                      key={index}
+                      style={{
+                        display: "flex",
+                      }}
+                    >
+                      <td align="left" style={styles.col1}>
+                        {item[0]}
+                      </td>
+                      <td style={styles.col2}>{item[1]}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ))}
         </section>
       )}
-      {groupData.length > 0 && (
+      {Object.keys(groupData).length > 0 && (
         <section className="no-printme mt">
           <button onClick={printdiv}>Yazdır</button>
         </section>
@@ -116,3 +122,8 @@ function App() {
 }
 
 export default App;
+
+const styles = {
+  col1: { flex: 0.3 },
+  col2: { flex: 0.7 },
+};
